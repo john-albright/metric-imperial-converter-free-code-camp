@@ -1,14 +1,36 @@
 function ConvertHandler() {
   
   this.getNum = function(input) {
-    let result = input.match(/^\d+[.]*\d*[/]*\d*[.]*\d*/)[0];
-    let operands;
+    let result, operands;
+    let numbers, slashes;
 
-    if (result.match(/[/]/g)) {
-      operands = result.split("/");
-      result = operands[0] / operands[1];
+    //let result = input.match(/^\d+[.]*\d*[/]*\d*[.]*\d*/)[0];
+    numbers = input.match(/\d+[./0-9]*/g);
+    slashes = input.match(/[/]/g);
+
+    //console.log(numbers, slashes);
+
+    // If more than one string of numbers is matched, the input is invalid
+    if (numbers != null && numbers.length > 1) {
+      return null;
     }
-    
+
+    // If the slashes array is not 0 or 1, the input is invalid
+    if (slashes != null && slashes.length > 1) {
+      return null;
+    }
+
+    // If one slash is matched in the input, calculate the quotient of the two numbers
+    if (slashes != null && slashes.length == 1) {
+      if (numbers == null) return null;
+
+      operands = numbers[0].split("/");
+      result = operands[0] / operands[1];
+    } 
+
+    // If there are no divison symbols in the input, set the result to the first and only value of the numbers array
+    if (slashes == null && numbers != null) result = numbers[0];
+
     return result;
   };
   
@@ -22,7 +44,10 @@ function ConvertHandler() {
     let unitConvMap = {
       'mi': 'km', 
       'gal': 'L',
-      'lbs': 'kg'
+      'lbs': 'kg',
+      'km': 'mi',
+      'L': 'gal',
+      'kg': 'lbs'
     };
 
     let result = unitConvMap[initUnit];
@@ -36,7 +61,7 @@ function ConvertHandler() {
       'L': 'liters',
       'kg': 'kilograms',
       'mi': 'miles',
-      'kg': 'kilograms',
+      'lbs': 'pounds',
       'gal': 'gallons'
     };
     
@@ -63,10 +88,11 @@ function ConvertHandler() {
 
     let convFactor = convFactors[initUnit];
 
+    // Calculate the results of the unit converstion
     let result = initNum * convFactor;
 
     // Account for floating-point errors
-    result = Math.round(result * 1000000000000) / 1000000000000;
+    result = Number(result.toFixed(5));
     
     return result;
   };
