@@ -9,6 +9,8 @@ module.exports = function (app) {
 
   app.get('/api/convert', (req, res) => {
     let input = req.query.input;
+    // console.log(input);
+
     let validNum = true;
     let validUnit = true;
   
@@ -32,7 +34,7 @@ module.exports = function (app) {
     if (!validNum) return res.json("invalid number");
 
     // Make sure the returned number always displays with 5 decimal places of accuracy
-    let returnNum = convertHandler.convert(initNum, initUnit).toFixed(5); 
+    let returnNum = convertHandler.convert(initNum, initUnit); 
     let returnUnit = convertHandler.getReturnUnit(initUnit);
     let spelledOutReturnUnit = convertHandler.spellOutUnit(returnUnit);
     let string = convertHandler.getString(initNum, spelledOutInitUnit, returnNum, spelledOutReturnUnit);
@@ -44,6 +46,8 @@ module.exports = function (app) {
       'returnUnit': returnUnit,
       'string': string
     };
+
+    // console.log(object);
     
     res.json(object);
 

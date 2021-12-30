@@ -67,10 +67,13 @@ function ConvertHandler() {
     // Extract the first member of the array matches
     if (letters != null) result = letters[0];
 
-    // Convert the result to all lowercase if there are any uppercase letters that aren't L
+    // Convert the result to all lowercase if it's not "L"
     if (result != "L") result = result.toLowerCase();
 
-    console.log(`unit extracted: ${result}`);
+    // Convert the result to "L" if it's "l"
+    if (result == "l") result = "L";
+
+    //console.log(`unit extracted: ${result}`);
     return result;
   };
   
@@ -151,7 +154,7 @@ function ConvertHandler() {
   
   // Return the string that summarizes the conversion made in the convert handler
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
-    let result = `${initNum} ${initUnit} converts to ${returnNum} ${returnUnit}`;
+    let result = `${initNum} ${initUnit} converts to ${returnNum.toFixed(5)} ${returnUnit}`;
     
     return result;
   };
