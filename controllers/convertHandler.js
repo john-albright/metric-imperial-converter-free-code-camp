@@ -59,12 +59,18 @@ function ConvertHandler() {
 
   // Extract the unit from the input
   this.getUnit = function(input) {
-    let letters = input.match(/[a-z]+$/gi);
     let result = null;
 
+    // Find any combination letters at the end of the input
+    let letters = input.match(/[a-z]+$/gi);
+
+    // Extract the first member of the array matches
     if (letters != null) result = letters[0];
 
-    //console.log(`unit extracted: ${result}`);
+    // Convert the result to all lowercase if there are any uppercase letters that aren't L
+    if (result != "L") result = result.toLowerCase();
+
+    console.log(`unit extracted: ${result}`);
     return result;
   };
   
@@ -137,7 +143,8 @@ function ConvertHandler() {
     let result = initNum * convFactor;
 
     // Account for floating-point errors
-    result = Number(result.toFixed(5));
+    //result = Number(result.toFixed(5));
+    result = Math.round(result * 10 ** 5) / 10**5;
     
     return result;
   };

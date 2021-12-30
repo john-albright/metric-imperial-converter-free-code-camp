@@ -31,7 +31,8 @@ module.exports = function (app) {
     if (!validUnit) return res.json("invalid unit");
     if (!validNum) return res.json("invalid number");
 
-    let returnNum = convertHandler.convert(initNum, initUnit);
+    // Make sure the returned number always displays with 5 decimal places of accuracy
+    let returnNum = convertHandler.convert(initNum, initUnit).toFixed(5); 
     let returnUnit = convertHandler.getReturnUnit(initUnit);
     let spelledOutReturnUnit = convertHandler.spellOutUnit(returnUnit);
     let string = convertHandler.getString(initNum, spelledOutInitUnit, returnNum, spelledOutReturnUnit);
