@@ -12,15 +12,19 @@ module.exports = function (app) {
     let validNum = true;
     let validUnit = true;
   
+    // Try to extract the input number and unit
+    // Attempt to convert the initial unit to a spelled-out form 
     let initNum = convertHandler.getNum(input);
     let initUnit = convertHandler.getUnit(input);
     let spelledOutInitUnit = convertHandler.spellOutUnit(initUnit);
 
-    if (spelledOutInitUnit != null && initNum == null && input == initUnit) initNum = 1;
+    //if (spelledOutInitUnit != null && initNum == null && input == initUnit) initNum = 1;
 
     // Check to see if the number and unit entered are valid
     if (spelledOutInitUnit == null) validUnit = false;
-    if (validUnit && initNum == null) validNum = false;
+    if (/*validUnit && */ initNum == null) validNum = false;
+
+    //console.log(validUnit, validNum);
 
     // Return an error message if the number and/or unit are invalid
     if (!validNum && !validUnit) return res.json("invalid number and unit");
